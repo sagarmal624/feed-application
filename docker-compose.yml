@@ -1,0 +1,32 @@
+version: '2'
+services:
+  mongo-service:
+    image: mongo
+    ports:
+      - "27017:27017"
+  feed-transformer:
+    image: shirisha0425/feed-transformer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "provider-service"
+      - "rabbitmq"
+  feed-consumer:
+    image: shirisha0425/feed-consumer:latest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - "mongo-service"
+      - "rabbitmq"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  provider-service:
+    image: sbgfeedme/provider:latest
+    ports:
+      - "8181:8181"
+      - "8282:8282"
