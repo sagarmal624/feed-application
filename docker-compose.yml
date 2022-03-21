@@ -5,14 +5,14 @@ services:
     ports:
       - "27017:27017"
   feed-transformer:
-    image: shirisha0425/feed-transformer:latest
+    image: feed-transformer:latest
     ports:
       - "8080:8080"
     depends_on:
       - "provider-service"
       - "rabbitmq"
   feed-consumer:
-    image: shirisha0425/feed-consumer:latest
+    image: feed-consumer:latest
     ports:
       - "8081:8081"
     depends_on:
