@@ -1,24 +1,24 @@
 version: '2'
 services:
-  mongo-service:
-    image: mongo
-    ports:
-      - "27017:27017"
-  feed-transformer:
-    image: feed-transformer:latest
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "provider-service"
-      - "rabbitmq"
-  feed-consumer:
-    image: feed-consumer:latest
-    ports:
-      - "8081:8081"
-    depends_on:
-      - "mongo-service"
-      - "rabbitmq"
-
+  # mongo-service:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"
+  # feed-transformer:
+  #   image: feed-transformer:latest
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - "provider-service"
+  #     - "rabbitmq"
+  # feed-consumer:
+  #   image: feed-consumer:latest
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     - "mongo-service"
+  #     - "rabbitmq"
+  #
   rabbitmq:
     image: rabbitmq:3-management
     ports:
