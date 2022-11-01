@@ -21,10 +21,14 @@ public class EventFeedServiceImpl implements FeedService {
 
     @Override
     public void update(Feed feed) {
-        Event event = (Event) feed;
-        Optional<Event> eventOptional = eventRepository.findByEventId(event.getEventId());
-        Event dbEvent = eventOptional.orElseThrow(() -> new RuntimeException("Event not found in db for update operation"));
-        event.setId(dbEvent.getId());
-        eventRepository.save(event);
+        try {
+            Event event = (Event) feed;
+            Optional<Event> eventOptional = eventRepository.findByEventId(event.getEventId());
+            Event dbEvent = eventOptional.orElseThrow(() -> new RuntimeException("Event not found in db for update operation"));
+            event.setId(dbEvent.getId());
+            eventRepository.save(event);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

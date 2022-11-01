@@ -21,11 +21,15 @@ public class OutcomeFeedServiceImpl implements FeedService {
 
     @Override
     public void update(Feed feed) {
-        Outcome outcome = (Outcome) feed;
-        Optional<Outcome> outcomeOptional = outcomeRepository.findByOutcomeId(outcome.getOutcomeId());
-        Outcome dbOutcome = outcomeOptional.orElseThrow(() -> new RuntimeException("Outcome not found in db for update operation"));
-        outcome.setId(dbOutcome.getId());
-        outcomeRepository.save(outcome);
+        try {
+            Outcome outcome = (Outcome) feed;
+            Optional<Outcome> outcomeOptional = outcomeRepository.findByOutcomeId(outcome.getOutcomeId());
+            Outcome dbOutcome = outcomeOptional.orElseThrow(() -> new RuntimeException("Outcome not found in db for update operation"));
+            outcome.setId(dbOutcome.getId());
+            outcomeRepository.save(outcome);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 

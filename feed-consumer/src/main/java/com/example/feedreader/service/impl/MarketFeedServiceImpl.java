@@ -21,10 +21,14 @@ public class MarketFeedServiceImpl implements FeedService {
 
     @Override
     public void update(Feed feed) {
-        Market Market = (Market) feed;
-        Optional<Market> marketOptional = marketRepository.findByMarketId(Market.getMarketId());
-        Market dbMarket = marketOptional.orElseThrow(() -> new RuntimeException("Market not found in db for update operation"));
-        Market.setId(dbMarket.getId());
-        marketRepository.save(Market);
+        try {
+            Market Market = (Market) feed;
+            Optional<Market> marketOptional = marketRepository.findByMarketId(Market.getMarketId());
+            Market dbMarket = marketOptional.orElseThrow(() -> new RuntimeException("Market not found in db for update operation"));
+            Market.setId(dbMarket.getId());
+            marketRepository.save(Market);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
