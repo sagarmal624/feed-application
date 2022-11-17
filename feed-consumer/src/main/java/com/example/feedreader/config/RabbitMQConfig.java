@@ -1,3 +1,4 @@
+/*
 package com.example.feedreader.config;
 
 import com.example.feedreader.listener.FeedListner;
@@ -16,28 +17,9 @@ public class RabbitMQConfig {
     @Autowired
     FeedListner feedListner;
 
-    @Value("${feed.rabbitmq.queue}")
-    private String queueName;
-
-    @Value("${spring.rabbitmq.username}")
-    private String username;
-
-    @Value("${spring.rabbitmq.password}")
-    private String password;
-
     @Bean
     Queue eventQueue() {
         return new Queue("event", false);
-    }
-
-    @Bean
-    Queue outcomeQueue() {
-        return new Queue("outcome", false);
-    }
-
-    @Bean
-    Queue marketQueue() {
-        return new Queue("market", false);
     }
 
     //create MessageListenerContainer using default connection factory
@@ -47,21 +29,24 @@ public class RabbitMQConfig {
         simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
         simpleMessageListenerContainer.setQueues(eventQueue(), outcomeQueue(), marketQueue());
         simpleMessageListenerContainer.setMessageListener(feedListner);
-        simpleMessageListenerContainer.setConcurrentConsumers(3);
+        simpleMessageListenerContainer.setConcurrentConsumers(1);
         return simpleMessageListenerContainer;
     }
 
     //create custom connection factory
-	/*@Bean
+	*/
+/*@Bean
 	ConnectionFactory connectionFactory() {
 		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
 		cachingConnectionFactory.setUsername(username);
 		cachingConnectionFactory.setUsername(password);
 		return cachingConnectionFactory;
-	}*/
+	}*//*
+
 
     //create MessageListenerContainer using custom connection factory
-	/*@Bean
+	*/
+/*@Bean
 	MessageListenerContainer messageListenerContainer() {
 		SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
 		simpleMessageListenerContainer.setConnectionFactory(connectionFactory());
@@ -69,6 +54,7 @@ public class RabbitMQConfig {
 		simpleMessageListenerContainer.setMessageListener(new RabbitMQListner());
 		return simpleMessageListenerContainer;
 
-	}*/
+	}*//*
 
-}
+
+}*/

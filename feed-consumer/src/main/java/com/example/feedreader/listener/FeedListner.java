@@ -7,25 +7,30 @@ import com.example.feedreader.util.ApplicationContextProvider;
 import com.example.feedreader.util.FeedFactory;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FeedListner implements MessageListener {
-    @Autowired
-    private CustomBlockingQueue customBlockingQueue;
-    @Autowired
-    Consumer consumer;
-
+public class FeedListner implements MessageListener{
+    @RabbitListener(id = "feedExchange-1", queues = "feed-1")
     public void onMessage(Message message) {
-        Feed feed = FeedFactory.getFeed(message);
-        System.out.println("Recieved Messaged and Puting in quque" + feed.toString());
+        System.out.println("Recieved Messaged from queue="+message.getMessageProperties().getConsumerQueue()+", Exchange="+message.getMessageProperties().getReceivedExchange());
         try {
-            customBlockingQueue.put(feed);
-            new Thread(consumer).start();
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+       // Feed feed = FeedFactory.getFeed(message);
+//        System.out.println("Recieved Messaged and Puting in quque" + feed.toString());
+//        FeedService feedService = ApplicationContextProvider.getApplicationContext().getBean(feed.getType() + "Service", FeedService.class);
+//        if (feed.getOperation().toUpperCase().equals(OperationType.CREATE.name())) {
+//            feedService.create(feed);
+//        } else if (feed.getOperation().toUpperCase().equals(OperationType.UPDATE.name())) {
+//            feedService.update(feed);
+//        } else {
+//            throw new RuntimeException("operation type deos not match.");
+//        }
 
     }
 
